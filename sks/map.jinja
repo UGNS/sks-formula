@@ -1,0 +1,7 @@
+# vim: sts=2:ts=2:et:ai
+{% set sks = salt['grains.filter_by']({
+    'Debian': {
+        'packages': ['sks'],
+        'service': 'sks',
+    },
+}, merge=salt['pillar.get']('sks:lookup')) %}
