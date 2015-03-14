@@ -1,0 +1,63 @@
+{% set config = salt['pillar.get']('sks:config', {}) -%}
+{% set processed_parameters = [] -%}
+{% macro set_parameter(parameter, default=None) -%}
+{% set value = config.get(parameter, default) -%}
+{% if value is not none -%}
+{{ parameter }}: {{ value }}
+{%- do processed_parameters.append(parameter) -%}
+{% endif -%}
+{% endmacro -%}
+# Managed by config management
+#
+# The configuration file for your SKS server.
+# You can find more options in sks(8) manpage.
+
+# Set server hostname
+{{ set_parameter('hostname', grains['id']) }}
+{{ set_parameter('nodename', grains['host']) }}
+{{ set_parameter('server_contact') }}
+
+# Set recon binding address
+{{ set_parameter('recon_address', '0.0.0.0') }}
+
+# Set recon port number
+{{ set_parameter('recon_port', '11370') }}
+
+# Set hkp binding address
+{{ set_parameter('hkp_address', '0.0.0.0') }}
+
+# Set hkp port number
+{{ set_parameter('hkp_port', '11371') }}
+
+# Have the HKP interface listen on port 80, as well as the hkp_port
+#use_port_80:
+
+# From address used in synchronization emails used to communicate with PKS
+#from_addr: "PGP Key Server Administrator <pgp-public-keys@this.server.fdqn>"
+# Command used for sending mail (you can use -f option to specify the
+# envelope sender address, if your MTA trusts the sks user)
+#sendmail_cmd: /usr/lib/sendmail -t -oi
+
+# Runs database statistics calculation on boot (time and cpu expensive)
+{{ set_parameter('initial_stat') }}
+
+{{ set_parameter('disable_mailsync') }}
+
+{{ set_parameter('stat_hour') }}
+
+{{ set_parameter('membership_reload_interval') }}
+
+# bdb's db_tune program suggests a pagesize of 65536 for [K]DB/key. In practice
+# this caused page deadlocks. I found 8K (16) and 16K (32) to be better values
+{{ set_parameter('pagesize', '16') }}
+#
+# The tuner recommended 4096 (8) for the pagesize for PTree/ptree. I have had
+# very good results with 8196
+{{ set_parameter('ptree_pagesize', '16') }}
+
+# Parameters set using 'extra_options'
+{% for parameter in config -%}
+{% if parameter not in processed_parameters -%}
+{{ set_parameter(parameter) }}
+{% endif -%}
+{% endfor -%}

@@ -15,3 +15,11 @@ sks:
     - enable: True
     - require:
       - pkg: sks
+
+sksconf:
+  file.managed:
+    - name: {{ sks.confdir }}/sksconf.new
+    - source: salt://sks/files/sksconf
+    - template: jinja
+    - require:
+      - pkg: sks

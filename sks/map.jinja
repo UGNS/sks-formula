@@ -3,5 +3,6 @@
     'Debian': {
         'packages': ['sks'],
         'service': 'sks',
+        'confdir': '/etc/sks',
     },
 }, merge=salt['pillar.get']('sks:lookup')) %}
