@@ -24,3 +24,5 @@ sksconf:
     - template: jinja
     - require:
       - pkg: sks
+    - watch_in:
+      - service: sks
