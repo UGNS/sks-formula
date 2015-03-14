@@ -38,15 +38,6 @@
 # envelope sender address, if your MTA trusts the sks user)
 #sendmail_cmd: /usr/lib/sendmail -t -oi
 
-# Runs database statistics calculation on boot (time and cpu expensive)
-{{ set_parameter('initial_stat') }}
-
-{{ set_parameter('disable_mailsync') }}
-
-{{ set_parameter('stat_hour') }}
-
-{{ set_parameter('membership_reload_interval') }}
-
 # bdb's db_tune program suggests a pagesize of 65536 for [K]DB/key. In practice
 # this caused page deadlocks. I found 8K (16) and 16K (32) to be better values
 {{ set_parameter('pagesize', '16') }}
