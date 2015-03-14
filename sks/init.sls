@@ -13,6 +13,7 @@ sks:
   {% endif %}
   service.running:
     - enable: True
+    - reload: True
     - require:
       - pkg: sks
 
