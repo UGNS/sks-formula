@@ -15,7 +15,6 @@
 # Set server hostname
 {{ set_parameter('hostname', grains['id']) }}
 {{ set_parameter('nodename', grains['host']) }}
-{{ set_parameter('server_contact') }}
 
 # Set recon binding address
 {{ set_parameter('recon_address', '0.0.0.0') }}
