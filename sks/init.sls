@@ -19,7 +19,7 @@ sks:
 
 sksconf:
   file.managed:
-    - name: {{ sks.confdir }}/sksconf.new
+    - name: {{ sks.confdir }}/sksconf
     - source: salt://sks/files/sksconf
     - template: jinja
     - require:
