@@ -18,7 +18,7 @@
 {%   do upstream.append({'server': addrs[0] ~ ':' ~ nginx.port}) %}
 {% endfor %}
 {% do config.append({'upstream ' ~ nginx.pool: upstream}) %}
-upstream_conf:
+nginx_conf_{{ nginx.pool}}:
   file.managed:
     - name: {{ nginx.conf_dir }}/{{ nginx.pool }}.conf
     - source: salt://nginx/ng/files/vhost.conf
