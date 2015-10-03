@@ -12,3 +12,6 @@
 #
 # Example:
 # keyserver.linux.it 11370
+{% for members, opts in salt['pillar.get']('sks:membership', {}).items() -%}
+{{ member }} {{ opts.get('port','11370') }}
+{% endfor -%}
