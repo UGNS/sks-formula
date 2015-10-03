@@ -26,7 +26,7 @@
 #
 # Example:
 # keyserver.linux.it 11370
-{%- for server, addrs in salt['mine.get']('server_type:sks', 'internal_ip_addrs', expr_form='grain').items() -%}
+{%- for server, addrs in salt['mine.get']('roles:sks:*', 'internal_ip_addrs', expr_form='grain').items() -%}
 {%- if server != grains.id -%}
 {{ gen_membership(addrs[0]) }}
 {%- endif -%}
