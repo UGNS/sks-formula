@@ -26,3 +26,12 @@ sksconf:
       - pkg: sks
     - watch_in:
       - service: sks
+
+membership:
+  file.managed:
+    - name: {{ sks.confdir }}/membership
+    - source: salt://sks/files/membership
+    - template: jinja
+    - require:
+      - pkg: sks
+
