@@ -2,20 +2,13 @@
 {% from "sks/map.jinja" import sks with context %}
 
 sks:
-  {% if sks.packages is defined %}
   pkg.installed:
     - names:
   {% for name in sks.packages %}
         - {{ name }}
   {% endfor %}
-    - watch_in:
-      - service: sks
-  {% endif %}
-  service.running:
-    - enable: True
-    - reload: True
-    - require:
-      - pkg: sks
+  service.enabled:
+    - name: {{ sks.service }}
 
 sksconf:
   file.managed:
@@ -24,8 +17,6 @@ sksconf:
     - template: jinja
     - require:
       - pkg: sks
-    - watch_in:
-      - service: sks
 
 membership:
   file.managed:
