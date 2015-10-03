@@ -11,7 +11,6 @@
 {% set config = [] %}
 {% set upstream = [] %}
 {% do upstream.append({nginx.balancer: ''}) %}
-{% do upstream.append({'server': '127.0.0.1:' ~ nginx.port}) %}
 {% for addrs in salt['network.ip_addrs']('lo', include_loopback=True) %}
 {%   do upstream.append({'server': addrs ~ ':' ~ nginx.port}) %}
 {% endfor %}
