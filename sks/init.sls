@@ -9,6 +9,7 @@ sks:
   {% endfor %}
   service.enabled:
     - name: {{ sks.service }}
+    - onlyif: test -d /var/lib/sks/DB
 
 sksconf:
   file.managed:
