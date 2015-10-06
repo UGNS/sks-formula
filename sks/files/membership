@@ -31,6 +31,6 @@
 {{ gen_membership(addrs[0]) }}
 {%- endif -%}
 {%- endfor -%}
-{%- for member, config in salt['pillar.get']('sks:membership', {}).items()|dictsort -%}
+{%- for member, config in salt['pillar.get']('sks:membership', {}).items() -%}
 {{ gen_membership(member, config) }}
 {%- endfor -%}
