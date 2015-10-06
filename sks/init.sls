@@ -47,7 +47,7 @@ sks_cleanup:
 
 sks_pbuild:
   cmd.run:
-    - name: /usr/sbin/sks pbuild --cache 20 -ptree_cache 70
+    - name: /usr/sbin/sks pbuild -cache 20 -ptree_cache 70
     - creates: {{ sks.datadir }}/PTree/ptree
     - user: {{ sks.user }}
     - require:
