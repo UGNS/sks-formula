@@ -4,5 +4,7 @@
         'packages': ['sks'],
         'service': 'sks',
         'confdir': '/etc/sks',
+        'datadir': '/var/lib/sks/',
+        'user': 'debian-sks',
     },
 }, merge=salt['pillar.get']('sks:lookup')) %}

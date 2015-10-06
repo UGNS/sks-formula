@@ -30,16 +30,16 @@ membership:
 
 sks_build:
   cmd.run:
-    - name: /usr/sbin/sks build /var/lib/sks/dump/*.pgp -n 2 -cache 50
-    - creates: /var/lib/sks/DB/key
-    - user: 'debian-sks'
+    - name: /usr/sbin/sks build {{ sks.datadir }}/dump/*.pgp -n 2 -cache 50
+    - creates: {{ sks.datadir }}/DB/key
+    - user: {{ sks.user }}
     - require:
       - pkg: sks
 
 sks_cleanup:
   cmd.wait:
     - name: /usr/sbin/sks cleandb
-    - user: 'debian-sks'
+    - user: {{ sks.user }}
     - onchanges:
       - cmd: sks_build
     - require:
@@ -48,8 +48,8 @@ sks_cleanup:
 sks_pbuild:
   cmd.run:
     - name: /usr/sbin/sks pbuild --cache 20 -ptree_cache 70
-    - creates: /var/lib/sks/PTree/ptree
-    - user: 'debian-sks'
+    - creates: {{ sks.datadir }}/PTree/ptree
+    - user: {{ sks.user }}
     - require:
       - cmd: sks_build
       - pkg: sks
