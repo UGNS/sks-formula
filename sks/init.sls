@@ -13,7 +13,7 @@ sks:
     - watch:
       - file: sksconf
     - require:
-      - cmd: sks_pbuild
+      - cmd: sks_build
 
 {% if grains['os'] == 'Debian' %}
 sks_default:
@@ -22,7 +22,7 @@ sks_default:
     - pattern: 'initstart=no'
     - repl: 'initstart=yes'
     - require:
-      - cmd: sks_pbuild
+      - cmd: sks_build
 {% endif %}
 
 sksconf:
@@ -42,27 +42,10 @@ membership:
       - pkg: sks
 
 sks_build:
-  cmd.run:
-    - name: /usr/sbin/sks build {{ sks.datadir }}/dump/*.pgp -n 2 -cache 50
-    - creates: {{ sks.datadir }}/DB/key
-    - user: {{ sks.user }}
-    - require:
-      - pkg: sks
-
-sks_cleanup:
-  cmd.run:
-    - name: /usr/sbin/sks cleandb
-    - user: {{ sks.user }}
-    - require:
-      - cmd: sks_build
-      - pkg: sks
-
-sks_pbuild:
-  cmd.run:
-    - name: /usr/sbin/sks pbuild -cache 20 -ptree_cache 70
+  cmd.script:
+    - name: salt://{{ slspath }}/files/sks_build.sh
+    - source: salt://{{ slspath }}/files/sks_build.sh
     - creates: {{ sks.datadir }}/PTree/ptree
     - user: {{ sks.user }}
     - require:
-      - cmd: sks_cleanup
       - pkg: sks
-
