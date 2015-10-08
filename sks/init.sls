@@ -7,10 +7,23 @@ sks:
   {% for name in sks.packages %}
         - {{ name }}
   {% endfor %}
-  service.enabled:
+  service.running:
     - name: {{ sks.service }}
+    - enable: True
+    - watch:
+      - file: sksconf
     - require:
       - cmd: sks_pbuild
+
+{% if grains['os'] == 'Debian' %}
+sks_default:
+  file.replace:
+    - name: /etc/default/sks
+    - pattern: 'initstart=no'
+    - repl: 'initstart=yes'
+    - require:
+      - cmd: sks_pbuild
+{% endif %}
 
 sksconf:
   file.managed:
@@ -37,12 +50,11 @@ sks_build:
       - pkg: sks
 
 sks_cleanup:
-  cmd.wait:
+  cmd.run:
     - name: /usr/sbin/sks cleandb
     - user: {{ sks.user }}
-    - onchanges:
-      - cmd: sks_build
     - require:
+      - cmd: sks_build
       - pkg: sks
 
 sks_pbuild:
@@ -51,6 +63,6 @@ sks_pbuild:
     - creates: {{ sks.datadir }}/PTree/ptree
     - user: {{ sks.user }}
     - require:
-      - cmd: sks_build
+      - cmd: sks_cleanup
       - pkg: sks
 
