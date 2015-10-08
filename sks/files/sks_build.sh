@@ -13,7 +13,7 @@ ignore_signal() {
 
 fail() { echo Command failed unexpectedly.  Bailing out; exit -1; }
 
-mode="build /var/lib/sks/dump*.pgp"
+mode="build /var/lib/sks/dump/*.pgp"
 
 echo "=== Running build... ==="
 if ! /usr/sbin/sks $mode -n 2 -cache 50; then fail; fi
