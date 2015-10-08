@@ -47,7 +47,7 @@ sks_build:
     - source: salt://{{ slspath }}/files/sks_build.sh
     - creates: {{ sks.datadir }}/PTree/ptree
     - user: {{ sks.user }}
-    - onfail:
+    - onfail_in:
       - cmd: sks_cleanup_db
       - cmd: sks_cleanup_ptree
     - require:
