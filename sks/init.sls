@@ -47,5 +47,20 @@ sks_build:
     - source: salt://{{ slspath }}/files/sks_build.sh
     - creates: {{ sks.datadir }}/PTree/ptree
     - user: {{ sks.user }}
+    - onfailure:
+      - cmd: sks_cleanup_db
+      - cmd: sks_cleanup_ptree
     - require:
       - pkg: sks
+
+sks_cleanup_db:
+  cmd.wait:
+    - name: rm -rf /var/lib/sks/DB
+    - user: {{ sks.user }}
+    - onlyif: test -d /var/lib/sks/DB
+
+sks_cleanup_ptree:
+  cmd.wait:
+    - name: rm -rf /var/lib/sks/PTree
+    - user: {{ sks.user }}
+    - onlyif: test -d /var/lib/sks/PTree
