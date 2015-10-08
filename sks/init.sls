@@ -54,7 +54,6 @@ sks_cleanup_db:
   cmd.wait:
     - name: rm -rf /var/lib/sks/DB
     - user: {{ sks.user }}
-    - onlyif: test -d /var/lib/sks/DB
     - onfail:
       - cmd: sks_build
 
@@ -62,7 +61,6 @@ sks_cleanup_ptree:
   cmd.wait:
     - name: rm -rf /var/lib/sks/PTree
     - user: {{ sks.user }}
-    - onlyif: test -d /var/lib/sks/PTree
     - onfail:
       - cmd: sks_build
 
