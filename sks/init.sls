@@ -45,22 +45,20 @@ sks_build:
   cmd.script:
     - name: salt://{{ slspath }}/files/sks_build.sh
     - source: salt://{{ slspath }}/files/sks_build.sh
-    - creates: {{ sks.datadir }}/PTree/ptree
+    - creates: {{ sks.datadir }}/PTree
     - user: {{ sks.user }}
     - require:
       - pkg: sks
 
 sks_cleanup_db:
-  cmd.wait:
-    - name: rm -rf /var/lib/sks/DB
-    - user: {{ sks.user }}
+  file.absent:
+    - name: {{ sks.datadir }}/DB
     - onfail:
       - cmd: sks_build
 
 sks_cleanup_ptree:
-  cmd.wait:
-    - name: rm -rf /var/lib/sks/PTree
-    - user: {{ sks.user }}
+  file.absent:
+    - name: {{ sks.datadir }}/PTree
     - onfail:
       - cmd: sks_build
 
