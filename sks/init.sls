@@ -51,14 +51,14 @@ sks_build:
       - pkg: sks
 
 sks_cleanup_db:
-  cmd.run:
+  cmd.wait:
     - name: rm -rf /var/lib/sks/DB
     - user: {{ sks.user }}
     - onfail:
       - cmd: sks_build
 
 sks_cleanup_ptree:
-  cmd.run:
+  cmd.wait:
     - name: rm -rf /var/lib/sks/PTree
     - user: {{ sks.user }}
     - onfail:
