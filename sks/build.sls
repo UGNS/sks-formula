@@ -4,6 +4,21 @@
 include:
   - sks
 
+mount_dump:
+  mount.mounted:
+    - name: /var/lib/sks/dump
+    - device: sks.srv.dumain.com:/dumps/current
+    - fstype: nfs
+    - opts: defaults,ro,proto=tcp
+    - persist: False
+
+verify_dump:
+  cmd.run:
+    - name: md5sum -c --quiet metadata-sks-dump.txt
+    - cwd: /var/lib/sks/dump
+    - require:
+      - mount: mount_dump
+
 sks_build:
   cmd.script:
     - name: salt://sks/files/sks_build.sh
@@ -16,6 +31,7 @@ sks_build:
         pbuild_opts: sks.get('pbuild_opts')
     - require:
       - pkg: sks
+      - cmd: verify_dump
 
 sks_cleanup_db:
   file.absent:
@@ -29,7 +45,7 @@ sks_cleanup_ptree:
     - onfail:
       - cmd: sks_build
 
-{% if grains['os'] == 'Debian' %}
+{% if grains.os == 'Debian' %}
 sks_default:
   file.replace:
     - name: /etc/default/sks
@@ -40,3 +56,12 @@ sks_default:
     - watch_in:
       - service: sks
 {% endif %}
+
+unmount_dump:
+  mount.unmounted:
+    - name: /var/lib/sks/dump
+    - device: sks.srv.dumain.com:/dumps/current
+    - onchanges:
+      - cmd: sks_build
+    - onfail:
+      - cmd: verify_dump
