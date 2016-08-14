@@ -1,0 +1,14 @@
+sks:
+  # The sksconf options can be customized from defaults
+  config:
+    hostname: sks.example.org
+    server_contact: '0xDEADBEEF'
+
+  # The membership file listing gossip peers
+  # All options under server name are optional
+  membership:
+    peer.example.com:
+      port: 11372
+      admin: Server Contact
+      email: nobody@example.com
+      keyid: '0xFEEDDEAD'
