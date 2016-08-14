@@ -1,4 +1,12 @@
 sks:
+  # to overwrite map.jinja values
+  lookup:
+    packages: ['sks']
+    service: sks
+    confdir: /etc/sks
+    datadir: /var/lib/sks
+    user: debian-sks
+
   # The sksconf options can be customized from defaults
   config:
     hostname: sks.example.org
