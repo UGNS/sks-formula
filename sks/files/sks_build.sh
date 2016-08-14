@@ -16,10 +16,9 @@ fail() { echo Command failed unexpectedly.  Bailing out; exit -1; }
 mode="build /var/lib/sks/dump/*.pgp"
 
 echo "=== Running build... ==="
-if ! /usr/sbin/sks $mode -n 2 -cache 30; then fail; fi
+if ! /usr/sbin/sks $mode {{ build_opts|d('-n 10 -cache 100') }}; then fail; fi
 echo === Cleaning key database... ===
 if ! /usr/sbin/sks cleandb; then fail; fi
 echo === Building ptree database... ===
-if ! /usr/sbin/sks pbuild -cache 20 -ptree_cache 70; then fail; fi
+if ! /usr/sbin/sks pbuild {{ pbuild_opts|d('-cache 20 -ptree_cache 70') }}; then fail; fi
 echo === Done! ===
-

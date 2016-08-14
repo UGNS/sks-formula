@@ -8,8 +8,12 @@ sks_build:
   cmd.script:
     - name: salt://sks/files/sks_build.sh
     - source: salt://sks/files/sks_build.sh
+    - template: jinja
     - creates: {{ sks.datadir }}/PTree
     - user: {{ sks.user }}
+    - context:
+        build_opts: sks.get('build_opts')
+        pbuild_opts: sks.get('pbuild_opts')
     - require:
       - pkg: sks
 

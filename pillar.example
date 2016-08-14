@@ -6,6 +6,8 @@ sks:
     confdir: /etc/sks
     datadir: /var/lib/sks
     user: debian-sks
+    build_opts: -n 10 -cache 100
+    pbuild_opts: -cache 20 -ptree_cache 70
 
   # The sksconf options can be customized from defaults
   config:
