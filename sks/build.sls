@@ -62,4 +62,3 @@ unmount_dump:
     - name: /var/lib/sks/dump
     - require:
       - mount: mount_dump
-    - order: last

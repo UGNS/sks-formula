@@ -10,3 +10,4 @@ sks:
   service.running:
     - name: {{ sks.service }}
     - enable: True
+    - order: last
