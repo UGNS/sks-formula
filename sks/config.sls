@@ -23,3 +23,10 @@ membership:
       - pkg: sks
     - watch_in:
       - service: sks
+
+{% if not salt['file.directory_exists']('{0}/DB'.format(sks.datadir)) -%}
+sks/keydump/update:
+  event.send:
+    - data:
+        status: "SKS keydump needs to be imported"
+{% endif -%}
