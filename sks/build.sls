@@ -62,7 +62,4 @@ unmount_dump:
   mount.unmounted:
     - name: /var/lib/sks/dump
     - device: sks.srv.dumain.com:/dumps/current
-    - onchanges:
-      - cmd: sks_build
-    - onfail:
-      - cmd: verify_dump
+    - order: last
