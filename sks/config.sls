@@ -25,8 +25,8 @@ membership:
       - service: sks
 
 {% if not salt['file.directory_exists']('{0}/DB'.format(sks.datadir)) -%}
-sks/keydump/update:
+sks/keydump/ready:
   event.send:
     - data:
-        status: "SKS keydump needs to be imported"
+        status: "Ready for keydump to be imported"
 {% endif -%}
