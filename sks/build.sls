@@ -14,8 +14,9 @@ mount_dump:
 
 verify_dump:
   cmd.run:
-    - name: md5sum -c --quiet metadata-sks-dump.txt
+    - name: md5sum -c --quiet metadata-sks-dump.txt && touch /tmp/metadata-sks-dump.ok
     - cwd: /var/lib/sks/dump
+    - creates: /tmp/metadata-sks-dump.ok
     - require:
       - mount: mount_dump
 
@@ -27,10 +28,10 @@ sks_build:
     - creates: {{ sks.datadir }}/PTree
     - user: {{ sks.user }}
     - context:
-        build_opts: sks.get('build_opts')
-        pbuild_opts: sks.get('pbuild_opts')
+        build_opts: {{ sks.build_opts }}
+        pbuild_opts: {{ sks.pbuild_opts }}
     - require:
-      - pkg: sks
+      - sls: sks
       - cmd: verify_dump
 
 sks_cleanup_db:
