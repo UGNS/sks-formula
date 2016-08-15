@@ -61,5 +61,6 @@ sks_default:
 unmount_dump:
   mount.unmounted:
     - name: /var/lib/sks/dump
-    - device: sks.srv.dumain.com:/dumps/current
+    - require:
+      - mount: mount_dump
     - order: last
