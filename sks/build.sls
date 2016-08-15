@@ -31,7 +31,6 @@ sks_build:
         build_opts: {{ sks.build_opts }}
         pbuild_opts: {{ sks.pbuild_opts }}
     - require:
-      - sls: sks
       - cmd: verify_dump
 
 sks_cleanup_db:
