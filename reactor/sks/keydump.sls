@@ -5,3 +5,4 @@ build_sks_db:
         mods:
           - sks.build
         test: False
+        queue: True
